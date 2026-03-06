@@ -11,7 +11,6 @@
     --purple: #330072;
     --purple-mid: #4a0096;
     --lpurple: #9678D3;
-    --blue: #41B6E6;
     --orange: #E87D0D;
     --bg: #f8f6ff;
     --surface: #ffffff;
@@ -21,10 +20,9 @@
     --denied: #c0392b;
     --denied-bg: #fff0ee;
     --border: #e0d8f5;
+    --green: #27ae60;
   }
-
   * { box-sizing: border-box; margin: 0; padding: 0; }
-
   body {
     font-family: 'Sora', sans-serif;
     background: var(--bg);
@@ -33,7 +31,6 @@
     background-image: radial-gradient(ellipse at 20% 0%, #ddd0ff44 0%, transparent 60%),
                       radial-gradient(ellipse at 80% 100%, #b3e6ff33 0%, transparent 60%);
   }
-
   header {
     background: var(--purple);
     padding: 18px 36px;
@@ -42,7 +39,6 @@
     gap: 16px;
     box-shadow: 0 4px 24px #33007240;
   }
-
   .hpu-badge {
     background: white;
     color: var(--purple);
@@ -54,35 +50,46 @@
     border-radius: 4px;
     text-transform: uppercase;
   }
+  header h1 { font-family: 'DM Serif Display', serif; color: white; font-size: 20px; font-weight: 400; }
+  header span { color: var(--lpurple); font-size: 13px; font-weight: 300; margin-left: auto; }
+  main { max-width: 1100px; margin: 0 auto; padding: 36px 24px; }
 
-  header h1 {
-    font-family: 'DM Serif Display', serif;
-    color: white;
-    font-size: 20px;
-    font-weight: 400;
-    letter-spacing: 0.3px;
+  .mode-toggle {
+    display: flex;
+    background: white;
+    border: 1.5px solid var(--border);
+    border-radius: 12px;
+    overflow: hidden;
+    margin-bottom: 24px;
+    box-shadow: 0 2px 8px #33007210;
   }
-
-  header span {
-    color: var(--lpurple);
-    font-size: 13px;
+  .mode-btn {
+    flex: 1;
+    padding: 14px 20px;
+    border: none;
+    background: transparent;
     font-family: 'Sora', sans-serif;
-    font-weight: 300;
-    margin-left: auto;
+    font-size: 13px;
+    font-weight: 500;
+    color: var(--muted);
+    cursor: pointer;
+    transition: all 0.2s;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 8px;
+    border-right: 1.5px solid var(--border);
+    line-height: 1.4;
+    flex-direction: column;
   }
+  .mode-btn:last-child { border-right: none; }
+  .mode-btn.active { background: var(--purple); color: white; }
+  .mode-btn:not(.active):hover { background: var(--surface2); }
+  .mode-sub { font-size: 10px; opacity: 0.7; font-weight: 400; }
 
-  main {
-    max-width: 1100px;
-    margin: 0 auto;
-    padding: 36px 24px;
-  }
-
-  .upload-section {
-    display: grid;
-    grid-template-columns: 1fr 1fr;
-    gap: 20px;
-    margin-bottom: 28px;
-  }
+  .upload-section { display: grid; gap: 20px; margin-bottom: 24px; }
+  .two-col { grid-template-columns: 1fr 1fr; }
+  .one-col { grid-template-columns: 1fr; }
 
   .upload-card {
     background: var(--surface);
@@ -95,295 +102,103 @@
     position: relative;
     overflow: hidden;
   }
-
   .upload-card:hover { border-color: var(--lpurple); background: var(--surface2); }
-  .upload-card.loaded { border-style: solid; border-color: var(--lpurple); background: var(--surface2); }
-  .upload-card.loaded-approved { border-color: #27ae60; background: #f0fff4; }
-  .upload-card.loaded-denied { border-color: var(--orange); background: #fff8f0; }
-
-  .upload-icon {
-    width: 48px; height: 48px;
-    border-radius: 12px;
-    display: flex; align-items: center; justify-content: center;
-    font-size: 22px;
-    margin: 0 auto 12px;
-  }
-
+  .upload-card.loaded-approved { border-style: solid; border-color: var(--green); background: #f0fff4; }
+  .upload-card.loaded-denied { border-style: solid; border-color: var(--orange); background: #fff8f0; }
+  .upload-card.loaded-combined { border-style: solid; border-color: var(--lpurple); background: var(--surface2); }
+  .upload-icon { width: 48px; height: 48px; border-radius: 12px; display: flex; align-items: center; justify-content: center; font-size: 22px; margin: 0 auto 12px; }
   .icon-approved { background: #e8f8ee; }
   .icon-denied { background: #fff0e8; }
+  .icon-combined { background: #ede8ff; }
+  .upload-card h3 { font-size: 14px; font-weight: 600; margin-bottom: 4px; }
+  .upload-card p { font-size: 12px; color: var(--muted); margin-bottom: 14px; }
+  .upload-card input[type="file"] { position: absolute; inset: 0; opacity: 0; cursor: pointer; }
+  .upload-btn { display: inline-block; background: var(--purple); color: white; font-size: 12px; font-weight: 500; padding: 8px 18px; border-radius: 8px; pointer-events: none; }
+  .file-status { margin-top: 10px; font-size: 11px; font-family: 'DM Mono', monospace; font-weight: 500; }
+  .status-ok { color: var(--green); }
+  .status-warn { color: var(--orange); }
+  .status-info { color: var(--lpurple); }
 
-  .upload-card h3 {
-    font-size: 14px;
-    font-weight: 600;
-    margin-bottom: 4px;
-    color: var(--text);
-  }
-
-  .upload-card p {
-    font-size: 12px;
-    color: var(--muted);
-    margin-bottom: 14px;
-  }
-
-  .upload-card input[type="file"] {
-    position: absolute; inset: 0; opacity: 0; cursor: pointer;
-  }
-
-  .upload-btn {
-    display: inline-block;
-    background: var(--purple);
-    color: white;
-    font-size: 12px;
-    font-weight: 500;
-    padding: 8px 18px;
-    border-radius: 8px;
-    font-family: 'Sora', sans-serif;
-    pointer-events: none;
-  }
-
-  .file-status {
-    margin-top: 10px;
-    font-size: 11px;
-    font-family: 'DM Mono', monospace;
-    font-weight: 500;
-  }
-
-  .status-ok { color: #27ae60; }
-  .status-denied-ok { color: var(--orange); }
-
-  .run-btn {
-    display: block;
-    width: 100%;
-    background: linear-gradient(135deg, var(--purple), var(--purple-mid));
-    color: white;
-    border: none;
-    border-radius: 12px;
-    padding: 16px;
-    font-family: 'Sora', sans-serif;
-    font-size: 15px;
-    font-weight: 600;
-    cursor: pointer;
-    letter-spacing: 0.3px;
-    box-shadow: 0 6px 24px #33007230;
-    transition: all 0.2s ease;
-    margin-bottom: 32px;
-  }
-
-  .run-btn:hover { transform: translateY(-2px); box-shadow: 0 10px 32px #33007240; }
-  .run-btn:disabled { background: #ccc; cursor: not-allowed; transform: none; box-shadow: none; }
-
-  .results-header {
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
-    margin-bottom: 16px;
-    flex-wrap: wrap;
-    gap: 12px;
-  }
-
-  .results-title {
-    font-family: 'DM Serif Display', serif;
-    font-size: 22px;
-    color: var(--purple);
-  }
-
-  .badge-count {
-    background: var(--denied);
-    color: white;
-    font-size: 13px;
-    font-weight: 600;
-    padding: 4px 14px;
-    border-radius: 20px;
-  }
-
-  .controls {
-    display: flex;
-    gap: 10px;
-    align-items: center;
-    flex-wrap: wrap;
-  }
-
-  .search-input {
+  .col-picker {
+    background: white;
     border: 1.5px solid var(--border);
-    border-radius: 8px;
-    padding: 8px 14px;
+    border-radius: 12px;
+    padding: 18px 20px;
+    margin-bottom: 20px;
+    display: none;
+  }
+  .col-picker.visible { display: block; }
+  .col-picker h4 { font-size: 13px; font-weight: 600; margin-bottom: 14px; color: var(--purple); }
+  .col-picker-row { display: flex; align-items: flex-end; gap: 16px; flex-wrap: wrap; }
+  .col-picker-field label { display: block; font-size: 11px; color: var(--muted); font-weight: 600; letter-spacing: 0.5px; text-transform: uppercase; margin-bottom: 5px; }
+  .col-picker-field select {
+    border: 1.5px solid var(--border);
+    border-radius: 7px;
+    padding: 7px 12px;
     font-family: 'Sora', sans-serif;
-    font-size: 13px;
+    font-size: 12px;
     background: white;
     color: var(--text);
     outline: none;
-    width: 220px;
-    transition: border-color 0.2s;
+    min-width: 160px;
   }
+  .col-picker-field select:focus { border-color: var(--lpurple); }
+  .value-hint { font-size: 11px; color: var(--muted); font-family: 'DM Mono', monospace; margin-top: 10px; background: var(--surface2); border-radius: 6px; padding: 6px 10px; }
 
-  .search-input:focus { border-color: var(--lpurple); }
-
-  select.search-input { width: 160px; }
-
-  .export-btn {
-    background: var(--orange);
-    color: white;
-    border: none;
-    border-radius: 8px;
-    padding: 8px 18px;
-    font-family: 'Sora', sans-serif;
-    font-size: 13px;
-    font-weight: 600;
-    cursor: pointer;
-    transition: all 0.2s;
+  .run-btn {
+    display: block; width: 100%;
+    background: linear-gradient(135deg, var(--purple), var(--purple-mid));
+    color: white; border: none; border-radius: 12px; padding: 16px;
+    font-family: 'Sora', sans-serif; font-size: 15px; font-weight: 600;
+    cursor: pointer; box-shadow: 0 6px 24px #33007230;
+    transition: all 0.2s; margin-bottom: 32px;
   }
+  .run-btn:hover { transform: translateY(-2px); box-shadow: 0 10px 32px #33007240; }
+  .run-btn:disabled { background: #ccc; cursor: not-allowed; transform: none; box-shadow: none; }
 
-  .export-btn:hover { background: #c96b00; }
-
-  .table-wrap {
-    background: white;
-    border-radius: 16px;
-    box-shadow: 0 2px 20px #33007210;
-    overflow: hidden;
-    border: 1px solid var(--border);
-  }
-
-  table {
-    width: 100%;
-    border-collapse: collapse;
-    font-size: 13px;
-  }
-
-  thead th {
-    background: var(--purple);
-    color: white;
-    font-weight: 600;
-    font-size: 11px;
-    letter-spacing: 0.8px;
-    text-transform: uppercase;
-    padding: 13px 16px;
-    text-align: left;
-    cursor: pointer;
-    user-select: none;
-    white-space: nowrap;
-  }
-
-  thead th:hover { background: var(--purple-mid); }
-
-  tbody tr { border-bottom: 1px solid #f0eaff; transition: background 0.15s; }
-  tbody tr:last-child { border-bottom: none; }
-  tbody tr:hover { background: var(--surface2); }
-
-  td { padding: 11px 16px; vertical-align: top; }
-
-  .td-id {
-    font-family: 'DM Mono', monospace;
-    font-size: 12px;
-    color: var(--muted);
-  }
-
-  .td-name { font-weight: 600; color: var(--text); }
-  .td-class { font-size: 12px; color: var(--muted); }
-
-  .accom-list {
-    display: flex;
-    flex-wrap: wrap;
-    gap: 4px;
-  }
-
-  .accom-tag {
-    background: var(--denied-bg);
-    color: var(--denied);
-    font-size: 10px;
-    font-weight: 500;
-    padding: 2px 8px;
-    border-radius: 4px;
-    border: 1px solid #f8ccc8;
-    white-space: nowrap;
-  }
-
-  .semester-tag {
-    background: #eef6ff;
-    color: #2980b9;
-    font-size: 10px;
-    padding: 2px 7px;
-    border-radius: 4px;
-    border: 1px solid #c5e3f8;
-    white-space: nowrap;
-  }
-
-  .count-pill {
-    background: var(--surface2);
-    color: var(--purple);
-    font-family: 'DM Mono', monospace;
-    font-size: 11px;
-    font-weight: 500;
-    padding: 3px 9px;
-    border-radius: 20px;
-    border: 1px solid var(--border);
-  }
-
-  .empty-state {
-    text-align: center;
-    padding: 60px 20px;
-    color: var(--muted);
-  }
-
-  .empty-state .emoji { font-size: 40px; margin-bottom: 12px; }
-  .empty-state p { font-size: 14px; }
-
-  .stat-bar {
-    display: grid;
-    grid-template-columns: repeat(3, 1fr);
-    gap: 16px;
-    margin-bottom: 24px;
-  }
-
-  .stat-card {
-    background: white;
-    border-radius: 12px;
-    padding: 18px 20px;
-    border: 1px solid var(--border);
-    box-shadow: 0 2px 8px #33007208;
-  }
-
-  .stat-label {
-    font-size: 11px;
-    font-weight: 600;
-    letter-spacing: 0.8px;
-    text-transform: uppercase;
-    color: var(--muted);
-    margin-bottom: 6px;
-  }
-
-  .stat-value {
-    font-family: 'DM Serif Display', serif;
-    font-size: 28px;
-    color: var(--purple);
-  }
-
+  .stat-bar { display: grid; grid-template-columns: repeat(3, 1fr); gap: 16px; margin-bottom: 24px; }
+  .stat-card { background: white; border-radius: 12px; padding: 18px 20px; border: 1px solid var(--border); box-shadow: 0 2px 8px #33007208; }
+  .stat-label { font-size: 11px; font-weight: 600; letter-spacing: 0.8px; text-transform: uppercase; color: var(--muted); margin-bottom: 6px; }
+  .stat-value { font-family: 'DM Serif Display', serif; font-size: 28px; color: var(--purple); }
   .stat-value.red { color: var(--denied); }
   .stat-value.orange { color: var(--orange); }
 
-  .pagination {
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    gap: 8px;
-    padding: 16px;
-    border-top: 1px solid var(--border);
-  }
+  .results-header { display: flex; align-items: center; justify-content: space-between; margin-bottom: 16px; flex-wrap: wrap; gap: 12px; }
+  .results-title { font-family: 'DM Serif Display', serif; font-size: 22px; color: var(--purple); }
+  .badge-count { background: var(--denied); color: white; font-size: 13px; font-weight: 600; padding: 4px 14px; border-radius: 20px; }
+  .controls { display: flex; gap: 10px; align-items: center; flex-wrap: wrap; }
+  .search-input { border: 1.5px solid var(--border); border-radius: 8px; padding: 8px 14px; font-family: 'Sora', sans-serif; font-size: 13px; background: white; color: var(--text); outline: none; width: 220px; transition: border-color 0.2s; }
+  .search-input:focus { border-color: var(--lpurple); }
+  select.search-input { width: 160px; }
+  .export-btn { background: var(--orange); color: white; border: none; border-radius: 8px; padding: 8px 18px; font-family: 'Sora', sans-serif; font-size: 13px; font-weight: 600; cursor: pointer; transition: all 0.2s; white-space: nowrap; }
+  .export-btn:hover { background: #c96b00; }
 
-  .page-btn {
-    border: 1.5px solid var(--border);
-    background: white;
-    border-radius: 6px;
-    padding: 5px 12px;
-    font-size: 12px;
-    cursor: pointer;
-    font-family: 'Sora', sans-serif;
-    transition: all 0.15s;
-  }
+  .table-wrap { background: white; border-radius: 16px; box-shadow: 0 2px 20px #33007210; overflow: hidden; border: 1px solid var(--border); }
+  table { width: 100%; border-collapse: collapse; font-size: 13px; }
+  thead th { background: var(--purple); color: white; font-weight: 600; font-size: 11px; letter-spacing: 0.8px; text-transform: uppercase; padding: 13px 16px; text-align: left; cursor: pointer; user-select: none; white-space: nowrap; }
+  thead th:hover { background: var(--purple-mid); }
+  tbody tr { border-bottom: 1px solid #f0eaff; transition: background 0.15s; }
+  tbody tr:last-child { border-bottom: none; }
+  tbody tr:hover { background: var(--surface2); }
+  td { padding: 11px 16px; vertical-align: top; }
+  .td-id { font-family: 'DM Mono', monospace; font-size: 12px; color: var(--muted); }
+  .td-name { font-weight: 600; }
+  .td-class { font-size: 12px; color: var(--muted); }
+  .accom-list { display: flex; flex-wrap: wrap; gap: 4px; }
+  .accom-tag { background: var(--denied-bg); color: var(--denied); font-size: 10px; font-weight: 500; padding: 2px 8px; border-radius: 4px; border: 1px solid #f8ccc8; white-space: nowrap; }
+  .semester-tag { background: #eef6ff; color: #2980b9; font-size: 10px; padding: 2px 7px; border-radius: 4px; border: 1px solid #c5e3f8; white-space: nowrap; }
+  .count-pill { background: var(--surface2); color: var(--purple); font-family: 'DM Mono', monospace; font-size: 11px; font-weight: 500; padding: 3px 9px; border-radius: 20px; border: 1px solid var(--border); }
+  .empty-state { text-align: center; padding: 60px 20px; color: var(--muted); }
+  .empty-state .emoji { font-size: 40px; margin-bottom: 12px; }
 
-  .page-btn:hover { border-color: var(--lpurple); background: var(--surface2); }
+  .pagination { display: flex; align-items: center; justify-content: center; gap: 8px; padding: 16px; border-top: 1px solid var(--border); flex-wrap: wrap; }
+  .page-btn { border: 1.5px solid var(--border); background: white; border-radius: 6px; padding: 5px 12px; font-size: 12px; cursor: pointer; font-family: 'Sora', sans-serif; transition: all 0.15s; }
+  .page-btn:hover:not(:disabled) { border-color: var(--lpurple); background: var(--surface2); }
   .page-btn.active { background: var(--purple); color: white; border-color: var(--purple); }
+  .page-btn:disabled { opacity: 0.4; cursor: not-allowed; }
   .page-info { font-size: 12px; color: var(--muted); }
 
+  .error-msg { background: #fff0ee; border: 1px solid #f8ccc8; border-radius: 8px; padding: 12px 16px; color: var(--denied); font-size: 12px; margin-bottom: 16px; display: none; }
   #results { display: none; }
 </style>
 </head>
@@ -396,28 +211,81 @@
 </header>
 
 <main>
-  <div class="upload-section">
-    <div class="upload-card" id="card-approved">
-      <input type="file" id="file-approved" accept=".xlsx,.xls" onchange="loadFile('approved', this)">
-      <div class="upload-icon icon-approved">✅</div>
-      <h3>Approved Accommodations File</h3>
-      <p>Export from Accommodate — Approved status</p>
-      <div class="upload-btn">Choose File</div>
-      <div class="file-status" id="status-approved"></div>
+
+  <div class="mode-toggle">
+    <button class="mode-btn active" id="btn-mode-two" onclick="setMode('two')">
+      📂 Two Separate Files
+      <span class="mode-sub">Approved export + Denied export</span>
+    </button>
+    <button class="mode-btn" id="btn-mode-one" onclick="setMode('one')">
+      📄 One Combined File
+      <span class="mode-sub">Single file with Approved &amp; Denied rows mixed</span>
+    </button>
+  </div>
+
+  <div class="error-msg" id="error-msg"></div>
+
+  <!-- TWO FILE MODE -->
+  <div id="mode-two">
+    <div class="upload-section two-col">
+      <div class="upload-card" id="card-approved">
+        <input type="file" id="file-approved" accept=".xlsx,.xls" onchange="loadSeparateFile('approved', this)">
+        <div class="upload-icon icon-approved">✅</div>
+        <h3>Approved Accommodations File</h3>
+        <p>Accommodate export — Approved records only</p>
+        <div class="upload-btn">Choose File</div>
+        <div class="file-status" id="status-approved"></div>
+      </div>
+      <div class="upload-card" id="card-denied">
+        <input type="file" id="file-denied" accept=".xlsx,.xls" onchange="loadSeparateFile('denied', this)">
+        <div class="upload-icon icon-denied">🚫</div>
+        <h3>Denied Accommodations File</h3>
+        <p>Accommodate export — Denied records only</p>
+        <div class="upload-btn">Choose File</div>
+        <div class="file-status" id="status-denied"></div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ONE FILE MODE -->
+  <div id="mode-one" style="display:none;">
+    <div class="upload-section one-col">
+      <div class="upload-card" id="card-combined">
+        <input type="file" id="file-combined" accept=".xlsx,.xls" onchange="loadCombinedFile(this)">
+        <div class="upload-icon icon-combined">📋</div>
+        <h3>Combined Accommodations File</h3>
+        <p>Single Accommodate export with both Approved and Denied rows in one file</p>
+        <div class="upload-btn">Choose File</div>
+        <div class="file-status" id="status-combined"></div>
+      </div>
     </div>
 
-    <div class="upload-card" id="card-denied">
-      <input type="file" id="file-denied" accept=".xlsx,.xls" onchange="loadFile('denied', this)">
-      <div class="upload-icon icon-denied">🚫</div>
-      <h3>Denied Accommodations File</h3>
-      <p>Export from Accommodate — Denied status</p>
-      <div class="upload-btn">Choose File</div>
-      <div class="file-status" id="status-denied"></div>
+    <div class="col-picker" id="col-picker">
+      <h4>🔧 Confirm Column Mapping</h4>
+      <div class="col-picker-row">
+        <div class="col-picker-field">
+          <label>Status Column</label>
+          <select id="pick-status" onchange="updateValueHints()"></select>
+        </div>
+        <div class="col-picker-field">
+          <label>Value = Approved</label>
+          <select id="pick-approved-val"></select>
+        </div>
+        <div class="col-picker-field">
+          <label>Value = Denied</label>
+          <select id="pick-denied-val"></select>
+        </div>
+        <div class="col-picker-field">
+          <label>Student ID Column</label>
+          <select id="pick-id"></select>
+        </div>
+      </div>
+      <div class="value-hint" id="value-hint"></div>
     </div>
   </div>
 
   <button class="run-btn" id="run-btn" onclick="runAnalysis()" disabled>
-    🔍 &nbsp; Find Students with Denials and No Approvals
+    🔍 &nbsp; Find Students Denied with No Approvals
   </button>
 
   <div id="results">
@@ -460,73 +328,154 @@
 </main>
 
 <script>
-let approvedData = null, deniedData = null;
+let currentMode = 'two';
+let approvedData = null, deniedData = null, combinedData = null, combinedColumns = [];
 let allResults = [], filteredResults = [];
-let sortCol = 'name', sortDir = 1;
-let currentPage = 1;
+let sortCol = 'name', sortDir = 1, currentPage = 1;
 const PAGE_SIZE = 25;
 
-function findColumn(df, candidates) {
-  const cols = df[0] ? Object.keys(df[0]) : [];
-  for (const c of candidates) {
-    const found = cols.find(k => k.trim().toLowerCase().includes(c.toLowerCase()));
-    if (found) return found;
-  }
-  return null;
+function setMode(mode) {
+  currentMode = mode;
+  document.getElementById('mode-two').style.display = mode === 'two' ? '' : 'none';
+  document.getElementById('mode-one').style.display = mode === 'one' ? '' : 'none';
+  document.getElementById('btn-mode-two').className = 'mode-btn' + (mode === 'two' ? ' active' : '');
+  document.getElementById('btn-mode-one').className = 'mode-btn' + (mode === 'one' ? ' active' : '');
+  document.getElementById('run-btn').disabled = true;
+  document.getElementById('results').style.display = 'none';
+  hideError();
 }
 
-function loadFile(type, input) {
-  const file = input.files[0];
-  if (!file) return;
+function showError(msg) { const e = document.getElementById('error-msg'); e.textContent = msg; e.style.display = 'block'; }
+function hideError() { document.getElementById('error-msg').style.display = 'none'; }
+
+function readWorkbook(file, callback) {
   const reader = new FileReader();
   reader.onload = e => {
     const wb = XLSX.read(e.target.result, { type: 'array' });
-    // Use first sheet that has "Raw Data" or just first sheet
-    let sheetName = wb.SheetNames.find(n => n.toLowerCase().includes('raw')) || wb.SheetNames[0];
+    const sheetName = wb.SheetNames.find(n => n.toLowerCase().includes('raw')) || wb.SheetNames[0];
     const data = XLSX.utils.sheet_to_json(wb.Sheets[sheetName], { defval: '' });
-
-    if (type === 'approved') {
-      approvedData = data;
-      document.getElementById('status-approved').innerHTML = `<span class="status-ok">✓ ${data.length.toLocaleString()} rows loaded</span>`;
-      document.getElementById('card-approved').className = 'upload-card loaded loaded-approved';
-    } else {
-      deniedData = data;
-      document.getElementById('status-denied').innerHTML = `<span class="status-denied-ok">✓ ${data.length.toLocaleString()} rows loaded</span>`;
-      document.getElementById('card-denied').className = 'upload-card loaded loaded-denied';
-    }
-
-    if (approvedData && deniedData) document.getElementById('run-btn').disabled = false;
+    callback(data);
   };
   reader.readAsArrayBuffer(file);
 }
 
-function runAnalysis() {
-  const idColA = findColumn(approvedData, ['student id', 'studentid', 'id']);
-  const idColD = findColumn(deniedData, ['student id', 'studentid', 'id']);
-  const nameCol = findColumn(deniedData, ['name']);
-  const classCol = findColumn(deniedData, ['class level', 'classlevel', 'class']);
-  const accomCol = findColumn(deniedData, ['requested accommodation', 'accommodation', 'accom']);
-  const semCol = findColumn(deniedData, ['semester', 'sem']);
+function findColumn(data, candidates) {
+  const cols = data[0] ? Object.keys(data[0]) : [];
+  for (const c of candidates) {
+    const found = cols.find(k => k.trim().toLowerCase().includes(c.toLowerCase()));
+    if (found) return found;
+  }
+  return cols[0] || null;
+}
 
-  const approvedIds = new Set(approvedData.map(r => String(r[idColA] || '').trim()));
+function loadSeparateFile(type, input) {
+  const file = input.files[0];
+  if (!file) return;
+  readWorkbook(file, data => {
+    if (type === 'approved') {
+      approvedData = data;
+      document.getElementById('status-approved').innerHTML = `<span class="status-ok">✓ ${data.length.toLocaleString()} rows loaded</span>`;
+      document.getElementById('card-approved').className = 'upload-card loaded-approved';
+    } else {
+      deniedData = data;
+      document.getElementById('status-denied').innerHTML = `<span class="status-warn">✓ ${data.length.toLocaleString()} rows loaded</span>`;
+      document.getElementById('card-denied').className = 'upload-card loaded-denied';
+    }
+    if (approvedData && deniedData) document.getElementById('run-btn').disabled = false;
+  });
+}
+
+function loadCombinedFile(input) {
+  const file = input.files[0];
+  if (!file) return;
+  readWorkbook(file, data => {
+    combinedData = data;
+    combinedColumns = data[0] ? Object.keys(data[0]) : [];
+
+    document.getElementById('status-combined').innerHTML = `<span class="status-info">✓ ${data.length.toLocaleString()} rows — confirm column mapping below</span>`;
+    document.getElementById('card-combined').className = 'upload-card loaded-combined';
+
+    const colOptions = combinedColumns.map(c => `<option value="${c}">${c}</option>`).join('');
+    ['pick-status','pick-id'].forEach(id => { document.getElementById(id).innerHTML = colOptions; });
+
+    const statusCol = findColumn(data, ['approved','status','decision']);
+    const idCol = findColumn(data, ['student id','studentid','id']);
+    if (statusCol) document.getElementById('pick-status').value = statusCol;
+    if (idCol) document.getElementById('pick-id').value = idCol;
+
+    document.getElementById('col-picker').className = 'col-picker visible';
+    updateValueHints();
+    document.getElementById('run-btn').disabled = false;
+  });
+}
+
+function updateValueHints() {
+  const statusCol = document.getElementById('pick-status').value;
+  if (!combinedData || !statusCol) return;
+  const uniqueVals = [...new Set(combinedData.map(r => String(r[statusCol]||'').trim()).filter(Boolean))].sort();
+  const valOptions = uniqueVals.map(v => `<option value="${v}">${v}</option>`).join('');
+  document.getElementById('pick-approved-val').innerHTML = valOptions;
+  document.getElementById('pick-denied-val').innerHTML = valOptions;
+  const approvedOpt = uniqueVals.find(v => v.toLowerCase().includes('approv'));
+  const deniedOpt = uniqueVals.find(v => v.toLowerCase().includes('den'));
+  if (approvedOpt) document.getElementById('pick-approved-val').value = approvedOpt;
+  if (deniedOpt) document.getElementById('pick-denied-val').value = deniedOpt;
+  document.getElementById('value-hint').textContent = `Values found in "${statusCol}": ${uniqueVals.join(', ')}`;
+}
+
+function runAnalysis() {
+  hideError();
+  document.getElementById('results').style.display = 'none';
+  let approvedRows, deniedRows;
+
+  if (currentMode === 'two') {
+    if (!approvedData || !deniedData) { showError('Please upload both files first.'); return; }
+    approvedRows = approvedData;
+    deniedRows = deniedData;
+  } else {
+    if (!combinedData) { showError('Please upload a file first.'); return; }
+    const statusCol = document.getElementById('pick-status').value;
+    const approvedVal = document.getElementById('pick-approved-val').value;
+    const deniedVal = document.getElementById('pick-denied-val').value;
+    approvedRows = combinedData.filter(r => String(r[statusCol]||'').trim() === approvedVal);
+    deniedRows = combinedData.filter(r => String(r[statusCol]||'').trim() === deniedVal);
+    if (!approvedRows.length && !deniedRows.length) {
+      showError(`No rows matched "${approvedVal}" or "${deniedVal}" in column "${statusCol}". Check your column configuration above.`);
+      return;
+    }
+  }
+
+  processAnalysis(approvedRows, deniedRows);
+}
+
+function processAnalysis(approvedRows, deniedRows) {
+  const sampleData = approvedRows.length ? approvedRows : deniedRows;
+  const idColA = findColumn(sampleData, ['student id','studentid','id']);
+  const idColD = findColumn(deniedRows, ['student id','studentid','id']);
+  const nameCol = findColumn(deniedRows, ['name']);
+  const classCol = findColumn(deniedRows, ['class level','classlevel','class']);
+  const accomCol = findColumn(deniedRows, ['requested accommodation','accommodation','accom']);
+  const semCol = findColumn(deniedRows, ['semester','sem']);
+
+  const approvedIds = new Set(approvedRows.map(r => String(r[idColA]||'').trim()).filter(Boolean));
 
   const studentMap = {};
-  for (const row of deniedData) {
-    const sid = String(row[idColD] || '').trim();
+  for (const row of deniedRows) {
+    const sid = String(row[idColD]||'').trim();
     if (!sid || approvedIds.has(sid)) continue;
     if (!studentMap[sid]) {
       studentMap[sid] = {
         id: sid,
-        name: String(row[nameCol] || '').trim(),
-        classLevel: String(row[classCol] || '').trim(),
+        name: String(row[nameCol]||'').trim(),
+        classLevel: String(row[classCol]||'').trim(),
         accommodations: new Set(),
         semesters: new Set(),
         count: 0,
         rawRows: []
       };
     }
-    const accom = String(row[accomCol] || '').trim();
-    const sem = String(row[semCol] || '').trim();
+    const accom = String(row[accomCol]||'').trim();
+    const sem = String(row[semCol]||'').trim();
     if (accom) studentMap[sid].accommodations.add(accom);
     if (sem) studentMap[sid].semesters.add(sem);
     studentMap[sid].count++;
@@ -539,15 +488,16 @@ function runAnalysis() {
     semesters: [...s.semesters].sort()
   }));
 
-  // Populate filters
+  if (!allResults.length) {
+    showError('Great news — no standalone denied students found. Every denied student also has at least one approved accommodation on record.');
+    return;
+  }
+
   const classes = [...new Set(allResults.map(r => r.classLevel).filter(Boolean))].sort();
   const sems = [...new Set(allResults.flatMap(r => r.semesters))].sort();
-  const fc = document.getElementById('filter-class');
-  const fs = document.getElementById('filter-semester');
-  fc.innerHTML = '<option value="">All Class Levels</option>' + classes.map(c => `<option>${c}</option>`).join('');
-  fs.innerHTML = '<option value="">All Semesters</option>' + sems.map(s => `<option>${s}</option>`).join('');
+  document.getElementById('filter-class').innerHTML = '<option value="">All Class Levels</option>' + classes.map(c => `<option>${c}</option>`).join('');
+  document.getElementById('filter-semester').innerHTML = '<option value="">All Semesters</option>' + sems.map(s => `<option>${s}</option>`).join('');
 
-  // Stats
   const totalDenials = allResults.reduce((a, r) => a + r.count, 0);
   document.getElementById('stat-bar').innerHTML = `
     <div class="stat-card"><div class="stat-label">Standalone Denied Students</div><div class="stat-value red">${allResults.length}</div></div>
@@ -563,25 +513,16 @@ function filterAndRender() {
   const q = document.getElementById('search').value.toLowerCase();
   const fc = document.getElementById('filter-class').value;
   const fs = document.getElementById('filter-semester').value;
-
   filteredResults = allResults.filter(r => {
-    const matchQ = !q || r.name.toLowerCase().includes(q) || r.id.includes(q);
-    const matchC = !fc || r.classLevel === fc;
-    const matchS = !fs || r.semesters.includes(fs);
-    return matchQ && matchC && matchS;
+    return (!q || r.name.toLowerCase().includes(q) || r.id.includes(q))
+        && (!fc || r.classLevel === fc)
+        && (!fs || r.semesters.includes(fs));
   });
-
   filteredResults.sort((a, b) => {
-    let av, bv;
-    if (sortCol === 'id') { av = a.id; bv = b.id; }
-    else if (sortCol === 'name') { av = a.name; bv = b.name; }
-    else if (sortCol === 'class') { av = a.classLevel; bv = b.classLevel; }
-    else if (sortCol === 'count') { av = a.count; bv = b.count; }
-    if (av < bv) return -sortDir;
-    if (av > bv) return sortDir;
-    return 0;
+    let av = sortCol==='id' ? a.id : sortCol==='name' ? a.name : sortCol==='class' ? a.classLevel : a.count;
+    let bv = sortCol==='id' ? b.id : sortCol==='name' ? b.name : sortCol==='class' ? b.classLevel : b.count;
+    return av < bv ? -sortDir : av > bv ? sortDir : 0;
   });
-
   document.getElementById('total-badge').textContent = filteredResults.length;
   currentPage = 1;
   renderPage();
@@ -591,13 +532,11 @@ function renderPage() {
   const start = (currentPage - 1) * PAGE_SIZE;
   const page = filteredResults.slice(start, start + PAGE_SIZE);
   const tbody = document.getElementById('table-body');
-
-  if (filteredResults.length === 0) {
+  if (!filteredResults.length) {
     tbody.innerHTML = `<tr><td colspan="6"><div class="empty-state"><div class="emoji">🎉</div><p>No students match these filters.</p></div></td></tr>`;
     document.getElementById('pagination').innerHTML = '';
     return;
   }
-
   tbody.innerHTML = page.map(r => `
     <tr>
       <td class="td-id">${r.id}</td>
@@ -606,16 +545,14 @@ function renderPage() {
       <td><div class="accom-list">${r.accommodations.map(a => `<span class="accom-tag">${a}</span>`).join('')}</div></td>
       <td><span class="count-pill">${r.count}</span></td>
       <td><div class="accom-list">${r.semesters.map(s => `<span class="semester-tag">${s}</span>`).join('')}</div></td>
-    </tr>
-  `).join('');
-
+    </tr>`).join('');
   renderPagination();
 }
 
 function renderPagination() {
   const totalPages = Math.ceil(filteredResults.length / PAGE_SIZE);
   if (totalPages <= 1) { document.getElementById('pagination').innerHTML = ''; return; }
-  let html = `<span class="page-info">Showing ${((currentPage-1)*PAGE_SIZE)+1}–${Math.min(currentPage*PAGE_SIZE, filteredResults.length)} of ${filteredResults.length}</span>`;
+  let html = `<span class="page-info">Showing ${((currentPage-1)*PAGE_SIZE)+1}–${Math.min(currentPage*PAGE_SIZE,filteredResults.length)} of ${filteredResults.length}</span>`;
   html += `<button class="page-btn" onclick="goPage(${currentPage-1})" ${currentPage===1?'disabled':''}>‹ Prev</button>`;
   for (let p = Math.max(1,currentPage-2); p <= Math.min(totalPages,currentPage+2); p++) {
     html += `<button class="page-btn ${p===currentPage?'active':''}" onclick="goPage(${p})">${p}</button>`;
@@ -627,43 +564,27 @@ function renderPagination() {
 function goPage(p) {
   const total = Math.ceil(filteredResults.length / PAGE_SIZE);
   if (p < 1 || p > total) return;
-  currentPage = p;
-  renderPage();
+  currentPage = p; renderPage();
 }
 
 function sortBy(col) {
-  if (sortCol === col) sortDir *= -1;
-  else { sortCol = col; sortDir = 1; }
+  if (sortCol === col) sortDir *= -1; else { sortCol = col; sortDir = 1; }
   filterAndRender();
 }
 
 function exportResults() {
-  const rows = filteredResults.map(r => ({
-    'Student ID': r.id,
-    'Name': r.name,
-    'Class Level': r.classLevel,
+  const summaryRows = filteredResults.map(r => ({
+    'Student ID': r.id, 'Name': r.name, 'Class Level': r.classLevel,
     'Denied Accommodations': r.accommodations.join(' | '),
-    'Total Denial Records': r.count,
-    'Semesters': r.semesters.join(', ')
+    'Total Denial Records': r.count, 'Semesters': r.semesters.join(', ')
   }));
-
   const wb = XLSX.utils.book_new();
-  const ws = XLSX.utils.json_to_sheet(rows);
-
-  // Column widths
-  ws['!cols'] = [
-    {wch:14},{wch:24},{wch:14},{wch:70},{wch:16},{wch:28}
-  ];
-
-  XLSX.utils.book_append_sheet(wb, ws, 'Standalone Denied Students');
-
-  // Detail sheet with all raw denial rows
-  const rawRows = filteredResults.flatMap(r => r.rawRows);
-  const ws2 = XLSX.utils.json_to_sheet(rawRows);
+  const ws1 = XLSX.utils.json_to_sheet(summaryRows);
+  ws1['!cols'] = [{wch:14},{wch:24},{wch:14},{wch:70},{wch:16},{wch:28}];
+  XLSX.utils.book_append_sheet(wb, ws1, 'Standalone Denied Students');
+  const ws2 = XLSX.utils.json_to_sheet(filteredResults.flatMap(r => r.rawRows));
   XLSX.utils.book_append_sheet(wb, ws2, 'All Denial Records');
-
-  const date = new Date().toISOString().slice(0,10);
-  XLSX.writeFile(wb, `Standalone_Denied_Students_${date}.xlsx`);
+  XLSX.writeFile(wb, `Standalone_Denied_Students_${new Date().toISOString().slice(0,10)}.xlsx`);
 }
 </script>
 </body>
